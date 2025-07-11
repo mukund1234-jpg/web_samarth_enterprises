@@ -33,16 +33,18 @@ This is a Django-based web application for managing Annual Maintenance Contracts
 ## 🔧 Local Setup Instructions
 
 1. **Clone the repository**
-
 ```bash
 git clone https://github.com/mukund1234-jpg/web_samarth_enterprises/edit/main/README.md
 cd AMCAPP
+
 python -m venv v
 cd D:\SamartEnterprises\AMCAPP
 ..\venv\Scripts\Activate
 (venv) PS D:\SamartEnterprises\AMCAPP>
 pip install -r requirements.txt
 python manage.py runserver
+
+
 
 
 
