@@ -35,5 +35,5 @@ This is a Django-based web application for managing Annual Maintenance Contracts
 1. **Clone the repository**
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/YOUR_REPO_NAME.git
+git clone https://github.com/mukund1234-jpg/web_samarth_enterprises/edit/main/README.md
 cd AMCAPP
