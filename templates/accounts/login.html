@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<div class="container d-flex justify-content-center align-items-center" style="min-height: 80vh;">
+  <div class="card shadow p-4" style="max-width: 400px; width: 100%;">
+    <div class="text-center mb-4">
+      <h4 class="fw-bold text-primary">Samarth Enterprises</h4>
+      <h5 class="text-muted">Email Login</h5>
+    </div>
+
+    {% if error %}
+    <div class="alert alert-danger py-2 text-center" role="alert">
+      {{ error }}
+    </div>
+    {% endif %}
+
+    <form method="POST" novalidate>
+      {% csrf_token %}
+      <div class="mb-3">
+        {{ form.email.label_tag }}
+        {{ form.email }}
+      </div>
+      <button type="submit" class="btn btn-primary w-100">Send OTP</button>
+    </form>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,32 @@
+<!-- Bootstrap 5 Required -->
+{% load static %}
+<div class="container-fluid mt-4">
+
+  <!-- Mobile-Friendly Toggle Buttons -->
+  <div class="d-flex d-md-none justify-content-center gap-3 mb-4">
+    <a href="{% url 'dashboard' %}?tab=pending"
+       class="btn {% if tab == 'pending' %}btn-primary{% else %}btn-outline-primary{% endif %} shadow-sm px-4 py-2 rounded-pill">
+      <i class="bi bi-hourglass-split me-1"></i> Pending
+    </a>
+    <a href="{% url 'dashboard' %}?tab=complete"
+       class="btn {% if tab == 'complete' %}btn-success{% else %}btn-outline-success{% endif %} shadow-sm px-4 py-2 rounded-pill">
+      <i class="bi bi-check-circle me-1"></i> Completed
+    </a>
+  </div>
+
+  <!-- Desktop Tab Nav -->
+  <ul class="nav nav-pills d-none d-md-flex justify-content-start mb-4 shadow-sm rounded bg-white px-2 py-2">
+    <li class="nav-item me-2">
+      <a class="nav-link {% if tab == 'pending' %}active bg-primary text-white{% else %}text-dark{% endif %}"
+         href="{% url 'dashboard' %}?tab=pending">
+        <i class="bi bi-hourglass-split me-1"></i> Pending Request
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link {% if tab == 'complete' %}active bg-success text-white{% else %}text-dark{% endif %}"
+         href="{% url 'dashboard' %}?tab=complete">
+        <i class="bi bi-check-circle me-1"></i> Completed Work
+      </a>
+    </li>
+  </ul>
+</div>

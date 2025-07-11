@@ -1,0 +1,59 @@
+
+{% extends 'base.html' %}
+
+
+{% block content %}
+{% load static %}
+
+{% include "navbarservicelist.html" %}
+
+  
+  <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
+
+    {% for req in requests %}
+    <div class="col mb-3">
+      <a href="{% url 'service_details' category=req.category_slug uuid=req.uuid %}" class="text-decoration-none">
+        <div class="card shadow-sm border-0 h-100 hover-shadow">
+          <div class="card-header bg-light d-flex align-items-center justify-content-between">
+            <span class="text-primary fw-semibold">
+              {% if req.category_slug == "air-conditioner" %}
+                <i class="bi bi-snow text-info"></i> AC AMC
+              {% elif req.category_slug == "water-filter" %}
+                <i class="bi bi-droplet text-primary"></i> Water Purifier AMC
+              {% elif req.category_slug == "chimaney-hub" %}
+                <i class="bi bi-wind text-secondary"></i> Chimney AMC
+              {% endif %}
+            </span>
+            <span class="badge bg-info text-dark">{{ req.amc_years }} Year</span>
+          </div>
+          <div class="card-body">
+            <p class="card-text mb-1 text-truncate">
+              <strong>👤 {{ req.customer.user.name|default:req.customer.user.email }}</strong>
+            </p>
+            <p class="mb-2">
+              <small class="text-muted">📅 {{ req.display_date }}</small>
+            </p>
+            <div class="d-flex justify-content-between">
+              <span class="text-success fw-bold">₹{{ req.price }}</span>
+              <span class="text-muted">🔁 {{ req.visit_count|default:'-' }} Visits</span>
+            </div>
+            <small class="text-muted">👷 Created by: {{ req.customer.created_by.name }}</small>
+          </div>
+          <div class="card-footer text-center border-top-0 bg-transparent">
+            <span class="badge {% if req.status == 'Completed' %}bg-success{% else %}bg-warning text-dark{% endif %}">
+              {% if req.status == 'Completed' %}
+                <i class="bi bi-check-circle-fill"></i> Completed
+              {% else %}
+                <i class="bi bi-hourglass-split"></i> Pending
+              {% endif %}
+            </span>
+          </div>
+        </div>
+      </a>
+    </div>
+    {% endfor %}
+
+  </div>
+</div>
+
+{% endblock %}
