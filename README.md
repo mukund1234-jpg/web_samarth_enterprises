@@ -38,9 +38,7 @@ git clone https://github.com/mukund1234-jpg/web_samarth_enterprises/edit/main/RE
 cd AMCAPP
 
 python -m venv v
-cd D:\SamartEnterprises\AMCAPP
 ..\venv\Scripts\Activate
-(venv) PS D:\SamartEnterprises\AMCAPP>
 pip install -r requirements.txt
 python manage.py runserver
 
