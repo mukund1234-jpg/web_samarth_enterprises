@@ -1,8 +1,85 @@
-*.pyc
+# Byte-compiled / optimized / DLL files
 __pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Django migrations: keep migration files, ignore pyc caches
+**/migrations/__pycache__/
+
+# Django stuff:
+*.log
+local_settings.py
 db.sqlite3
-.env
-/static/
+db.sqlite3-journal
+
+# Media files
 /media/
-/migrations/
+
+# Static files (can regenerate via collectstatic)
+staticfiles/
+static/
+
+# Environment files
+.env
+.env.*
+
+# VSCode settings
+.vscode/
+
+# PyCharm settings
+.idea/
+
+# Virtual Environment
 venv/
+ENV/
+env/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Coverage reports
+htmlcov/
+.coverage
+.tox/
+.nox/
+coverage.xml
+*.cover
+.hypothesis/
+
+# Testing
+.pytest_cache/
+nosetests.xml
+test-results.xml
+
+# MyPy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Jupyter Notebooks checkpoints
+.ipynb_checkpoints
+
+# Optional: Git ignore for Postgres dumps/backups
+*.dump
+*.sql
