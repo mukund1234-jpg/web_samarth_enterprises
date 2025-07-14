@@ -72,13 +72,8 @@ coverage.xml
 nosetests.xml
 test-results.xml
 
-# MyPy
-.mypy_cache/
-.dmypy.json
-dmypy.json
 
-# Jupyter Notebooks checkpoints
-.ipynb_checkpoints
+
 
 # Optional: Git ignore for Postgres dumps/backups
 *.dump
