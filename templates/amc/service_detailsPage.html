@@ -37,8 +37,8 @@
 
           {% if service.bill_url %}
             
-            <a href="{{ service.bill_url }}" target="_blank" class="btn btn-primary">Open Full PDF</a>
-            <a href="{{ service.bill_url }}" class="btn btn-success" download>Download PDF</a>
+            <a href="{{ service.bill_url.url }}" target="_blank" class="btn btn-primary">Open Full PDF</a>
+            <a href="{{ service.bill_url.url }}" class="btn btn-success" download>Download PDF</a>
           {% endif %}
 
         </div>

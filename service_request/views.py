@@ -7,14 +7,16 @@ from django.core.serializers.json import DjangoJSONEncoder
 from django.contrib import messages
 from .forms import StatusUpdateForm
 from .utils import generate_pdf_receipt
+from .models import ACRequest, WaterPurifierRequest, ChimneyHobRequest
+from django.utils.timezone import localtime, now
+from datetime import timedelta
+from django.core.files.base import ContentFile
 
 
 
 User = get_user_model()
 
-from .models import ACRequest, WaterPurifierRequest, ChimneyHobRequest
-from django.utils.timezone import localtime, now
-from datetime import timedelta
+
 
 
 def dashboard(request):
@@ -204,12 +206,10 @@ def request_form_view(request, category_slug):
         })
 
 
-from django.shortcuts import get_object_or_404, redirect, render
-from datetime import timedelta
-
 def update_status_view(request, uuid):
     base_service = get_object_or_404(RequestForm, uuid=uuid)
 
+    # 🔁 Get child instance (ACRequest, WaterPurifierRequest, etc.)
     if hasattr(base_service, 'acrequest'):
         service = base_service.acrequest
     elif hasattr(base_service, 'waterpurifierrequest'):
@@ -217,7 +217,7 @@ def update_status_view(request, uuid):
     elif hasattr(base_service, 'chimneyhobrequest'):
         service = base_service.chimneyhobrequest
     else:
-        service = base_service
+        service = base_service  # fallback (very rare)
 
     if request.method == 'POST':
         form = StatusUpdateForm(request.POST, request.FILES, instance=service)
@@ -225,16 +225,18 @@ def update_status_view(request, uuid):
             updated_service = form.save(commit=False)
 
             if updated_service.status == "Completed":
-                # Safely get amc_years or default to 1
-                amc_years = getattr(updated_service, 'amc_years')
-                if updated_service.start_date:
-                    updated_service.end_date = updated_service.start_date + timedelta(days=365 * amc_years)
+                # ✅ Now amc_years will be accessible
+                if updated_service.start_date and hasattr(updated_service, 'amc_years'):
+                    updated_service.end_date = updated_service.start_date + timedelta(days=365 * updated_service.amc_years)
 
-                # Generate PDF
+            updated_service.save()  # ✅ Will call subclass save() and calculate price, visits
+
+            if updated_service.status == "Completed":
                 pdf_file = generate_pdf_receipt(updated_service)
-                updated_service.bill = pdf_file
+                filename = f"receipt_{updated_service.id}.pdf"
+                updated_service.bill_url.save(filename, ContentFile(pdf_file.getvalue()))
+                updated_service.save()
 
-            updated_service.save()
             return redirect('service_details', category=updated_service.category.slug.lower(), uuid=updated_service.uuid)
     else:
         form = StatusUpdateForm(instance=service)
