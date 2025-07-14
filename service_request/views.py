@@ -7,8 +7,6 @@ from django.core.serializers.json import DjangoJSONEncoder
 from django.contrib import messages
 from .forms import StatusUpdateForm
 from .utils import generate_pdf_receipt
-from django.core.files.base import ContentFile
-from uuid import UUID
 
 
 
@@ -48,7 +46,6 @@ def dashboard(request):
         elif isinstance(req, ChimneyHobRequest):
             req.category_slug = 'chimaney-hub'
 
-        # Date formatting
         today = localtime(now()).date()
         created_date = localtime(req.created_at).date()
         if created_date == today:
@@ -81,16 +78,15 @@ def service_details(request, category, uuid):
     else:
         return redirect('dashboard')
 
-    # Safely build the full bill URL if it exists
-    bill_url = ''
-    if service.bill:
-        bill_url = request.build_absolute_uri(service.bill.url)
+    # Directly use the URL string stored in service.bill
+    bill_url = service.bill_url if service.bill_url else ''
 
     return render(request, 'amc/service_detailsPage.html', {
         'service': service,
         'category': category,
-        'bill_url': bill_url  # ✅ Now available in template
+        'bill_url': bill_url
     })
+
 
 def service(request):
     service= ProductCategory.objects.all()
@@ -208,10 +204,12 @@ def request_form_view(request, category_slug):
         })
 
 
+from django.shortcuts import get_object_or_404, redirect, render
+from datetime import timedelta
+
 def update_status_view(request, uuid):
     base_service = get_object_or_404(RequestForm, uuid=uuid)
 
-    # 🔁 Get child instance (ACRequest, WaterPurifierRequest, etc.)
     if hasattr(base_service, 'acrequest'):
         service = base_service.acrequest
     elif hasattr(base_service, 'waterpurifierrequest'):
@@ -219,7 +217,7 @@ def update_status_view(request, uuid):
     elif hasattr(base_service, 'chimneyhobrequest'):
         service = base_service.chimneyhobrequest
     else:
-        service = base_service  # fallback (very rare)
+        service = base_service
 
     if request.method == 'POST':
         form = StatusUpdateForm(request.POST, request.FILES, instance=service)
@@ -227,18 +225,16 @@ def update_status_view(request, uuid):
             updated_service = form.save(commit=False)
 
             if updated_service.status == "Completed":
-                # ✅ Now amc_years will be accessible
-                if updated_service.start_date and hasattr(updated_service, 'amc_years'):
-                    updated_service.end_date = updated_service.start_date + timedelta(days=365 * updated_service.amc_years)
+                # Safely get amc_years or default to 1
+                amc_years = getattr(updated_service, 'amc_years')
+                if updated_service.start_date:
+                    updated_service.end_date = updated_service.start_date + timedelta(days=365 * amc_years)
 
-            updated_service.save()  # ✅ Will call subclass save() and calculate price, visits
-
-            if updated_service.status == "Completed":
+                # Generate PDF
                 pdf_file = generate_pdf_receipt(updated_service)
-                filename = f"receipt_{updated_service.id}.pdf"
-                updated_service.bill.save(filename, ContentFile(pdf_file.getvalue()))
-                updated_service.save()
+                updated_service.bill = pdf_file
 
+            updated_service.save()
             return redirect('service_details', category=updated_service.category.slug.lower(), uuid=updated_service.uuid)
     else:
         form = StatusUpdateForm(instance=service)

@@ -4,6 +4,7 @@ from datetime import timedelta, date
 from django.utils.text import slugify
 from baseModel.base import *
 from cloudinary_storage.storage import MediaCloudinaryStorage
+
 User = settings.AUTH_USER_MODEL
 
 
@@ -69,7 +70,7 @@ class RequestForm(BaseModel):  # Inherit here
     customer = models.ForeignKey('Customer', on_delete=models.CASCADE)
     category = models.ForeignKey('ProductCategory', on_delete=models.SET_NULL, null=True)
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='Pending')
-    bill = models.FileField(upload_to='bills/', blank=True, null=True, storage=MediaCloudinaryStorage())
+    bill_url = models.FileField(upload_to='/bills',blank=True, null=True)
     comprensive = models.CharField(max_length=20, choices=COM_CHOICES, default='Comprensive')
     start_date = models.DateField(null=True, blank=True)
     end_date = models.DateField(null=True, blank=True)

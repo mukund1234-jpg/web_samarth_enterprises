@@ -13,20 +13,9 @@
             <li class="list-group-item"><strong>Phone:</strong> {{ service.customer.phone }}</li>
             <li class="list-group-item"><strong>Address:</strong> {{ service.customer.address }}</li>
 
-            <li class="list-group-item">
-              <strong>Category:</strong> {{ service.category.name }}
-              <span class="ms-2 text-muted">
-                {% if category == "air-conditioner" %}• {{ service.ac_type }}
-                {% elif category == "water-purifier" %}• {{ service.purifier_type }}
-                {% elif category == "chimney" %}• {{ service.device_type }}
-                {% endif %}
-              </span>
-            </li>
-
+            <li class="list-group-item"><strong>Category:</strong> {{ service.category.name }}</li>
             <li class="list-group-item"><strong>Brand:</strong> {{ service.product_brand }}</li>
             <li class="list-group-item"><strong>AMC Duration:</strong> {{ service.amc_years }} Year</li>
-            <li class="list-group-item"><strong>Visit Count:</strong> {{ service.visit_count|default:"-" }}</li>
-            <li class="list-group-item"><strong>Comprehensive Type:</strong> {{ service.comprensive }}</li>
             <li class="list-group-item"><strong>Price:</strong> ₹{{ service.price }}</li>
 
             <li class="list-group-item">
@@ -35,42 +24,23 @@
             </li>
 
             {% if service.start_date %}
-              <li class="list-group-item"><strong>Start Date:</strong> {{ service.start_date|date:"d M Y" }}</li>
+            <li class="list-group-item"><strong>Start Date:</strong> {{ service.start_date|date:"d M Y" }}</li>
             {% endif %}
             {% if service.end_date %}
-              <li class="list-group-item"><strong>End Date:</strong> {{ service.end_date|date:"d M Y" }}</li>
-            {% endif %}
-            {% if service.third_party_worker_name %}
-              <li class="list-group-item"><strong>Completed By:</strong> {{ service.third_party_worker_name }}</li>
-            {% endif %}
-            {% if service.payment_method %}
-              <li class="list-group-item"><strong>Payment Method:</strong> {{ service.payment_method }}</li>
+            <li class="list-group-item"><strong>End Date:</strong> {{ service.end_date|date:"d M Y" }}</li>
             {% endif %}
 
             <li class="list-group-item"><strong>Created At:</strong> {{ service.created_at|date:"F d, Y" }}</li>
-
-            {% if service.bill %}
-              <li class="list-group-item">
-                <strong>Download Receipt:</strong>
-                <a href="{{ service.bill.url }}" class="btn btn-success btn-sm" target="_blank">View PDF</a>
-              </li>
-            {% endif %}
-
-            {% if service.customer.phone and service.status == 'Completed' and service.bill and bill_url %}
-              {% with "Hello " as greeting %}
-              {% with ", your AMC service is completed. Download your bill here: " as message_text %}
-              {% with greeting|add:service.customer.user.name|default:service.customer.user.email|add:message_text|add:bill_url as whatsapp_message %}
-              <li class="list-group-item">
-                <strong>Send via WhatsApp:</strong>
-                <a href="https://wa.me/91{{ service.customer.phone }}?text={{ whatsapp_message|urlencode }}" class="btn btn-outline-success btn-sm mt-2" target="_blank">
-                  <i class="bi bi-whatsapp"></i> Send to Customer
-                </a>
-              </li>
-              {% endwith %}
-              {% endwith %}
-              {% endwith %}
-            {% endif %}
           </ul>
+
+          <hr>
+
+          {% if service.bill_url %}
+            
+            <a href="{{ service.bill_url }}" target="_blank" class="btn btn-primary">Open Full PDF</a>
+            <a href="{{ service.bill_url }}" class="btn btn-success" download>Download PDF</a>
+          {% endif %}
+
         </div>
       </div>
     </div>
@@ -85,13 +55,13 @@
       </div>
 
       {% if user.is_authenticated and user.role in "admin, office_worker" and service.status != "Completed" %}
-        <div class="card shadow-sm text-center mb-2">
-          <div class="card-body">
-            <a href="{% url 'update_status' service.uuid %}" class="btn btn-warning w-100">
-              <i class="bi bi-pencil-square me-1"></i> Generate Bill Status
-            </a>
-          </div>
+      <div class="card shadow-sm text-center mb-2">
+        <div class="card-body">
+          <a href="{% url 'update_status' service.uuid %}" class="btn btn-warning w-100">
+            <i class="bi bi-pencil-square me-1"></i> Generate Bill Status
+          </a>
         </div>
+      </div>
       {% endif %}
 
       <div class="card shadow-sm text-center mb-2">
