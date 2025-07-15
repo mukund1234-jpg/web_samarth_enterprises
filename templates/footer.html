@@ -1,6 +1,42 @@
+<footer class="footer mt-auto py-3">
+  <style>
+    .footer-glass {
+      background: rgba(30, 41, 59, 0.85);
+      backdrop-filter: blur(8px);
+      box-shadow: 0 -4px 24px rgba(99,102,241,0.10);
+      border-radius: 1.5rem 1.5rem 0 0;
+      color: #fff;
+      margin-top: 3rem;
+      position: fixed; /* Keeps navbar at the top */
+     bottom: 0;
 
-<footer class="footer mt-auto">
-    <div class="container">
-        <a href="#"><p>&copy; 2025 Service of home appliances</p></a>
-    </div>
+    }
+    .footer-link {
+      color: #a5b4fc;
+      text-decoration: none;
+      font-weight: 600;
+      transition: color 0.2s;
+    }
+    .footer-link:hover {
+      color: #fff;
+      text-decoration: underline;
+    }
+    .footer-icon {
+      color: #60a5fa;
+      margin-right: 0.5em;
+      font-size: 1.2em;
+      vertical-align: middle;
+    }
+    .footer-text {
+      margin: 0;
+      font-size: 1.08rem;
+      letter-spacing: 0.5px;
+    }
+  </style>
+  <div class="container-fluid text-center footer-glass py-3">
+    <a href="#" class="footer-link">
+      <i class="bi bi-tools footer-icon"></i>
+      <span class="footer-text">&copy; 2025 Service of Home Appliances</span>
+    </a>
+  </div>
 </footer>

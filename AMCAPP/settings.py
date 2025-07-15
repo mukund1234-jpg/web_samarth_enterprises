@@ -49,6 +49,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 ROOT_URLCONF = 'AMCAPP.urls'
@@ -145,5 +146,9 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = env('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
 
-LOGIN_URL = 'login'  # or wherever your login form is
+LOGIN_URL = 'email_login'  # or wherever your login form is
+LOGIN_REDIRECT_URL = 'dashboard'  # Redirect to home after successful login
+LOGOUT_REDIRECT_URL = 'email_login'
 
+import dj_database_url
+DATABASES['default'] = dj_database_url.config(conn_max_age=600, ssl_require=True)

@@ -4,6 +4,8 @@ from django.core.mail import send_mail
 from .models import CustomUser, OTP
 from .forms import EmailForm, OTPForm
 from django.conf import settings
+from django.contrib.auth.decorators import login_required
+
 
 def send_otp_email(email, code):
     send_mail(
@@ -33,7 +35,7 @@ def email_login_view(request):
         form = EmailForm()
     return render(request, 'accounts/login.html', {'form': form})
 
-
+@login_required
 def otp_verify_view(request):
     email = request.session.get('email')
     if not email:

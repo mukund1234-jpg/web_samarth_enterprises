@@ -1,30 +1,97 @@
-
 {% extends 'base.html' %}
-
 
 {% block content %}
 {% load static %}
-
 {% include "navbarservicelist.html" %}
 
-  
+<style>
+  body {
+    background: linear-gradient(135deg, #f8fafc 0%, #e0e7ff 100%);
+  }
+  .glass-card {
+    background: rgba(255,255,255,0.85);
+    backdrop-filter: blur(8px);
+    border-radius: 1.5rem;
+    box-shadow: 0 4px 32px rgba(99,102,241,0.10);
+    transition: box-shadow 0.2s, transform 0.2s;
+  }
+  .glass-card:hover {
+    box-shadow: 0 8px 48px rgba(99,102,241,0.18), 0 0 0 4px #6366f1;
+    transform: translateY(-4px) scale(1.03);
+  }
+  .category-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.2rem;
+    height: 2.2rem;
+    border-radius: 50%;
+    font-size: 1.3rem;
+    margin-right: 0.5em;
+    background: linear-gradient(135deg, #6366f1 0%, #60a5fa 100%);
+    color: #fff;
+    box-shadow: 0 2px 8px rgba(99,102,241,0.10);
+  }
+  .badge-animated {
+    animation: pulse 1.2s infinite alternate;
+  }
+  @keyframes pulse {
+    0% { box-shadow: 0 0 0 0 rgba(34,197,94,0.3);}
+    100% { box-shadow: 0 0 0 8px rgba(34,197,94,0);}
+  }
+  .card-footer {
+    background: transparent;
+    border-top: none;
+  }
+  .card-header {
+    border-radius: 1.5rem 1.5rem 0 0;
+    border-bottom: none;
+    background: #f1f5f9;
+  }
+  .card {
+    border-radius: 1.5rem;
+    overflow: hidden;
+  }
+  .card-text, .card-body small, .card-body strong {
+    font-size: 1.08rem;
+  }
+  .text-truncate {
+    max-width: 90%;
+    display: inline-block;
+    vertical-align: middle;
+  }
+  .price-highlight {
+    color: #22c55e;
+    font-weight: 700;
+    font-size: 1.1rem;
+  }
+  .visit-highlight {
+    color: #6366f1;
+    font-weight: 600;
+    font-size: 1.05rem;
+  }
+</style>
+
+<div class="container my-4">
   <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
 
     {% for req in requests %}
     <div class="col mb-3">
       <a href="{% url 'service_details' category=req.category_slug uuid=req.uuid %}" class="text-decoration-none">
-        <div class="card shadow-sm border-0 h-100 hover-shadow">
-          <div class="card-header bg-light d-flex align-items-center justify-content-between">
-            <span class="text-primary fw-semibold">
+        <div class="card glass-card shadow-sm border-0 h-100 hover-shadow">
+          <div class="card-header d-flex align-items-center justify-content-between">
+            <span class="fw-semibold">
               {% if req.category_slug == "air-conditioner" %}
-                <i class="bi bi-snow text-info"></i> AC AMC
+                <span class="category-icon"><i class="bi bi-snow"></i></span> AC AMC
               {% elif req.category_slug == "water-filter" %}
-                <i class="bi bi-droplet text-primary"></i> Water Purifier AMC
+                <span class="category-icon"><i class="bi bi-droplet"></i></span> Water Purifier AMC
               {% elif req.category_slug == "chimaney-hub" %}
-                <i class="bi bi-wind text-secondary"></i> Chimney AMC
+                <span class="category-icon"><i class="bi bi-wind"></i></span> Chimney AMC
+              {% else %}
+                <span class="category-icon"><i class="bi bi-tools"></i></span> Service AMC
               {% endif %}
             </span>
-            <span class="badge bg-info text-dark">{{ req.amc_years }} Year</span>
+            <span class="badge bg-info text-dark rounded-pill px-3">{{ req.amc_years }} Year</span>
           </div>
           <div class="card-body">
             <p class="card-text mb-1 text-truncate">
@@ -33,14 +100,14 @@
             <p class="mb-2">
               <small class="text-muted">📅 {{ req.display_date }}</small>
             </p>
-            <div class="d-flex justify-content-between">
-              <span class="text-success fw-bold">₹{{ req.price }}</span>
-              <span class="text-muted">🔁 {{ req.visit_count|default:'-' }} Visits</span>
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <span class="price-highlight">₹{{ req.price }}</span>
+              <span class="visit-highlight">🔁 {{ req.visit_count|default:'-' }} Visits</span>
             </div>
             <small class="text-muted">👷 Created by: {{ req.customer.created_by.name }}</small>
           </div>
-          <div class="card-footer text-center border-top-0 bg-transparent">
-            <span class="badge {% if req.status == 'Completed' %}bg-success{% else %}bg-warning text-dark{% endif %}">
+          <div class="card-footer text-center">
+            <span class="badge {% if req.status == 'Completed' %}bg-success badge-animated{% else %}bg-warning text-dark{% endif %} px-3 py-2">
               {% if req.status == 'Completed' %}
                 <i class="bi bi-check-circle-fill"></i> Completed
               {% else %}

@@ -1,29 +1,84 @@
-<!-- Bootstrap 5 Required -->
 {% load static %}
-<div class="container-fluid mt-4">
+<style>
+  .tab-glass {
+    background: rgba(255,255,255,0.92);
+    backdrop-filter: blur(8px);
+    border-radius: 2rem;
+    box-shadow: 0 4px 24px rgba(99,102,241,0.10);
+    margin-bottom: 2rem;
+  }
+  .nav-pills .nav-link {
+    border-radius: 2rem !important;
+    font-weight: 600;
+    font-size: 1.08rem;
+    transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+    padding: 0.7em 2.2em;
+    margin-right: 0.5em;
+    color: #6366f1;
+    background: transparent;
+    position: relative;
+    z-index: 1;
+  }
+  .nav-pills .nav-link.active,
+  .nav-pills .nav-link:focus {
+    background: linear-gradient(90deg, #6366f1 0%, #60a5fa 100%) !important;
+    color: #fff !important;
+    box-shadow: 0 2px 8px rgba(99,102,241,0.10);
+  }
+  .nav-pills .nav-link:not(.active):hover {
+    background: #e0e7ff;
+    color: #6366f1;
+    box-shadow: 0 2px 8px rgba(99,102,241,0.06);
+  }
+  .tab-btn {
+    font-weight: 600;
+    font-size: 1.08rem;
+    border-radius: 2rem;
+    box-shadow: 0 2px 8px rgba(99,102,241,0.08);
+    transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+  }
+  .tab-btn.active, .tab-btn:focus {
+    background: linear-gradient(90deg, #6366f1 0%, #60a5fa 100%) !important;
+    color: #fff !important;
+    box-shadow: 0 2px 8px rgba(99,102,241,0.10);
+  }
+  .tab-btn:not(.active):hover {
+    background: #e0e7ff;
+    color: #6366f1;
+    box-shadow: 0 2px 8px rgba(99,102,241,0.06);
+  }
+  .tab-section-bg {
+    background: linear-gradient(135deg, #f8fafc 0%, #e0e7ff 100%);
+    border-radius: 2rem;
+    padding: 1.5rem 0 0.5rem 0;
+    margin-bottom: 2rem;
+  }
+</style>
+
+<div class="container-fluid mt-4 tab-section-bg">
 
   <!-- Mobile-Friendly Toggle Buttons -->
   <div class="d-flex d-md-none justify-content-center gap-3 mb-4">
     <a href="{% url 'dashboard' %}?tab=pending"
-       class="btn {% if tab == 'pending' %}btn-primary{% else %}btn-outline-primary{% endif %} shadow-sm px-4 py-2 rounded-pill">
+       class="tab-btn btn {% if tab == 'pending' %}btn-primary active{% else %}btn-outline-primary{% endif %} shadow-sm px-4 py-2 rounded-pill">
       <i class="bi bi-hourglass-split me-1"></i> Pending
     </a>
     <a href="{% url 'dashboard' %}?tab=complete"
-       class="btn {% if tab == 'complete' %}btn-success{% else %}btn-outline-success{% endif %} shadow-sm px-4 py-2 rounded-pill">
+       class="tab-btn btn {% if tab == 'complete' %}btn-success active{% else %}btn-outline-success{% endif %} shadow-sm px-4 py-2 rounded-pill">
       <i class="bi bi-check-circle me-1"></i> Completed
     </a>
   </div>
 
   <!-- Desktop Tab Nav -->
-  <ul class="nav nav-pills d-none d-md-flex justify-content-start mb-4 shadow-sm rounded bg-white px-2 py-2">
+  <ul class="nav nav-pills d-none d-md-flex justify-content-start mb-4 tab-glass px-2 py-2">
     <li class="nav-item me-2">
-      <a class="nav-link {% if tab == 'pending' %}active bg-primary text-white{% else %}text-dark{% endif %}"
+      <a class="nav-link {% if tab == 'pending' %}active{% endif %}"
          href="{% url 'dashboard' %}?tab=pending">
         <i class="bi bi-hourglass-split me-1"></i> Pending Request
       </a>
     </li>
     <li class="nav-item">
-      <a class="nav-link {% if tab == 'complete' %}active bg-success text-white{% else %}text-dark{% endif %}"
+      <a class="nav-link {% if tab == 'complete' %}active{% endif %}"
          href="{% url 'dashboard' %}?tab=complete">
         <i class="bi bi-check-circle me-1"></i> Completed Work
       </a>

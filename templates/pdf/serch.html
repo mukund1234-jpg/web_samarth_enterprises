@@ -1,0 +1,64 @@
+<!-- Search Modal -->
+<style>
+  .modal-content.glass-modal {
+    background: rgba(30, 41, 59, 0.92);
+    backdrop-filter: blur(8px);
+    border-radius: 1.5rem;
+    box-shadow: 0 8px 32px rgba(99,102,241,0.18);
+    color: #fff;
+    border: none;
+  }
+  .modal-header.glass-header {
+    background: linear-gradient(90deg, #6366f1 0%, #60a5fa 100%);
+    border-radius: 1.5rem 1.5rem 0 0;
+    color: #fff;
+    border-bottom: none;
+  }
+  .modal-title {
+    font-size: 1.4rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: #fff;
+  }
+  .glass-modal .form-control {
+    background: rgba(255,255,255,0.12);
+    color: #fff;
+    border-radius: 2rem !important;
+    border: none;
+    font-size: 1.15rem;
+    box-shadow: 0 2px 8px rgba(99,102,241,0.08);
+    transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+  }
+  .glass-modal .form-control:focus {
+    background: rgba(255,255,255,0.22);
+    color: #22223b;
+    border: none;
+    box-shadow: 0 0 0 0.2rem rgba(99,102,241,0.15);
+  }
+  .glass-modal .input-group {
+    background: rgba(255,255,255,0.08);
+    border-radius: 2rem;
+    box-shadow: 0 2px 8px rgba(99,102,241,0.04);
+  }
+  .btn-close-white {
+    filter: invert(1) grayscale(1) brightness(2);
+  }
+</style>
+
+<div class="modal fade" id="searchModal" tabindex="-1" aria-labelledby="searchModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content glass-modal shadow-lg rounded-3">
+      <div class="modal-header glass-header">
+        <h5 class="modal-title fw-bold" id="searchModalLabel">🔍 Search</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body p-4">
+        <form action="{% url 'service_search_results' %}" method="GET">
+          <div class="input-group input-group-lg border rounded-pill shadow-sm">
+            <input type="text" class="form-control border-0 rounded-pill ps-4" name="q" placeholder="Type to search products..." required>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div

@@ -1,11 +1,95 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
+
+<style>
+  <>
+  .glass-input {
+    background: rgba(255,255,255,0.85);
+    backdrop-filter: blur(6px);
+    border-radius: 1.2rem;
+    box-shadow: 0 2px 8px rgba(99,102,241,0.06);
+    border: 1.5px solid #e0e7ff;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  .glass-input:focus {
+    border-color: #6366f1;
+    box-shadow: 0 0 0 0.2rem rgba(99,102,241,0.10);
+    background: rgba(255,255,255,0.95);
+  }
+  .form-label {
+    color: #6366f1;
+    font-weight: 600;
+  }
+  .helptext {
+    color: #64748b;
+    font-size: 0.95em;
+    margin-bottom: 0.5em;
+  }
+  body {
+    background: linear-gradient(135deg, #f8fafc 0%, #e0e7ff 100%);
+  }
+  .login-glass-card {
+    background: rgba(255,255,255,0.92);
+    backdrop-filter: blur(8px);
+    border-radius: 2rem;
+    box-shadow: 0 8px 32px rgba(99,102,241,0.12);
+    transition: box-shadow 0.2s, transform 0.2s;
+    max-width: 400px;
+    width: 100%;
+  }
+  .login-glass-card:hover {
+    box-shadow: 0 12px 48px rgba(99,102,241,0.18);
+    transform: translateY(-2px) scale(1.01);
+  }
+  .login-logo {
+    width: 64px;
+    height: 64px;
+    object-fit: contain;
+    border-radius: 1.2rem;
+    background: #e0e7ff;
+    box-shadow: 0 2px 8px rgba(99,102,241,0.10);
+    margin-bottom: 1em;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .form-label {
+    color: #6366f1;
+    font-weight: 600;
+  }
+  .form-control {
+    border-radius: 1.2rem !important;
+    border: 1.5px solid #e0e7ff;
+    box-shadow: 0 2px 8px rgba(99,102,241,0.04);
+    transition: border-color 0.2s, box-shadow 0.2s;
+    font-size: 1.08rem;
+  }
+  .form-control:focus {
+    border-color: #6366f1;
+    box-shadow: 0 0 0 0.2rem rgba(99,102,241,0.10);
+  }
+  .btn-primary {
+    border-radius: 2rem;
+    font-weight: 700;
+    font-size: 1.08rem;
+    box-shadow: 0 2px 8px rgba(99,102,241,0.10);
+    transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+    padding: 0.7em 0;
+  }
+  .btn-primary:hover {
+    background: #6366f1 !important;
+    color: #fff !important;
+    box-shadow: 0 4px 16px rgba(99,102,241,0.18);
+  }
+</style>
+
 <div class="container d-flex justify-content-center align-items-center" style="min-height: 80vh;">
-  <div class="card shadow p-4" style="max-width: 400px; width: 100%;">
+  <div class="login-glass-card card shadow p-4">
     <div class="text-center mb-4">
-      <h4 class="fw-bold text-primary">Samarth Enterprises</h4>
-      <h5 class="text-muted">Email Login</h5>
+      <img src="{% static 'images/samarthenterprises.png' %}" alt="Samarth Enterprises" class="login-logo">
+      <h4 class="fw-bold text-primary mb-1">Samarth Enterprises</h4>
+      <h5 class="text-muted mb-0">Email Login</h5>
     </div>
 
     {% if error %}

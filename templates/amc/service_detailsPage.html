@@ -1,92 +1,191 @@
 {% extends "base.html" %}
 {% block content %}
-<div class="container mt-5  mb-2">
+
+<style>
+  body {
+    background: linear-gradient(135deg, #f8fafc 0%, #e0e7ff 100%);
+  }
+  .glass-card {
+    background: rgba(255,255,255,0.85);
+    backdrop-filter: blur(8px);
+    border-radius: 1.5rem;
+    box-shadow: 0 4px 32px rgba(99,102,241,0.10);
+    transition: box-shadow 0.2s, transform 0.2s;
+  }
+  .glass-card:hover {
+    box-shadow: 0 8px 48px rgba(99,102,241,0.18);
+    transform: translateY(-2px) scale(1.01);
+  }
+  .section-title {
+    font-size: 2rem;
+    font-weight: 800;
+    color: #6366f1;
+    letter-spacing: 1px;
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+  }
+  .list-group-item {
+    font-size: 1.08rem;
+    background: transparent;
+    border: none;
+    border-radius: 0.5rem;
+    margin-bottom: 0.2em;
+    transition: background 0.2s;
+  }
+  .list-group-item strong {
+    color: #6366f1;
+    font-weight: 600;
+  }
+  .list-group-item:hover {
+    background: #e0e7ff;
+  }
+  .badge-animated {
+    animation: pulse 1.2s infinite alternate;
+  }
+  @keyframes pulse {
+    0% { box-shadow: 0 0 0 0 rgba(34,197,94,0.3);}
+    100% { box-shadow: 0 0 0 8px rgba(34,197,94,0);}
+  }
+  .btn-custom {
+    border-radius: 2rem;
+    font-weight: 600;
+    font-size: 1.08rem;
+    box-shadow: 0 2px 8px rgba(99,102,241,0.08);
+    transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+  }
+  .btn-custom:hover {
+    background: #6366f1 !important;
+    color: #fff !important;
+    box-shadow: 0 4px 16px rgba(99,102,241,0.18);
+  }
+  .contact-card {
+    background: linear-gradient(135deg, #6366f1 0%, #60a5fa 100%);
+    color: #fff;
+    border-radius: 1.5rem;
+    box-shadow: 0 2px 12px rgba(99,102,241,0.10);
+  }
+  .contact-card h5 {
+    color: #fff;
+    font-weight: 700;
+  }
+  .contact-card .fs-5 {
+    font-weight: 600;
+    letter-spacing: 1px;
+  }
+</style>
+
+<div class="container mt-5 mb-2">
   <div class="row g-4">
     <!-- Left: Service Info -->
     <div class="col-lg-8">
-      <div class="card shadow-lg border-0">
+      <div class="card glass-card border-0 shadow-lg">
         <div class="card-body">
-          <h3 class="fw-bold text-primary mb-4 border-bottom pb-2">{{ category|title }} Service Details</h3>
+          <h3 class="section-title mb-4 border-bottom pb-2">
+            <i class="bi bi-info-circle-fill text-primary"></i>
+            {{ category|title }} Service Details
+          </h3>
 
-          <ul class="list-group list-group-flush">
-            <li class="list-group-item"><i class="bi bi-person-fill text-primary me-2"></i><strong>Customer:</strong> {{ service.customer.user.name|default:service.customer.user.email }}</li>
-            <li class="list-group-item"><i class="bi bi-envelope-fill text-primary me-2"></i><strong>Email:</strong> {{ service.customer.user.email }}</li>
-            <li class="list-group-item"><i class="bi bi-telephone-fill text-primary me-2"></i><strong>Phone:</strong> {{ service.customer.phone }}</li>
-            <li class="list-group-item"><i class="bi bi-geo-alt-fill text-primary me-2"></i><strong>Address:</strong> {{ service.customer.address }}</li>
-
-            <li class="list-group-item"><i class="bi bi-tags-fill text-primary me-2"></i><strong>Category:</strong> {{ service.category.name }}</li>
-            
-    {% if service.ac_type %}
-    <li class="list-group-item"><strong>AC Type:</strong> {{ service.ac_type }}</li>
-    {% endif %}
-
-    {% if service.purifier_type %}
-    <li class="list-group-item"><strong>Purifier Type:</strong> {{ service.purifier_type }}</li>
-    {% endif %}
-
-    {% if service.device_type %}
-    <li class="list-group-item"><strong>Device Type:</strong> {{ service.device_type }}</li>
-    {% endif %}
-            <li class="list-group-item"><i class="bi bi-cpu-fill text-primary me-2"></i><strong>Brand:</strong> {{ service.product_brand }}</li>
-            <li class="list-group-item"><i class="bi bi-clock-fill text-primary me-2"></i><strong>AMC Duration:</strong> {{ service.amc_years }} Year(s)</li>
-            <li class="list-group-item"><i class="bi bi-currency-rupee text-primary me-2"></i><strong>Price:</strong> ₹{{ service.price }}</li>
-
+          <ul class="list-group list-group-flush mb-3">
+            <li class="list-group-item">
+              <i class="bi bi-person-fill text-primary me-2"></i>
+              <strong>Customer:</strong>
+              <span class="fw-bold text-dark">{{ service.customer.user.name|default:service.customer.user.email }}</span>
+            </li>
+            <li class="list-group-item">
+              <i class="bi bi-envelope-fill text-primary me-2"></i>
+              <strong>Email:</strong> {{ service.customer.user.email }}
+            </li>
+            <li class="list-group-item">
+              <i class="bi bi-telephone-fill text-primary me-2"></i>
+              <strong>Phone:</strong> {{ service.customer.phone }}
+            </li>
+            <li class="list-group-item">
+              <i class="bi bi-geo-alt-fill text-primary me-2"></i>
+              <strong>Address:</strong> {{ service.customer.address }}
+            </li>
+            <li class="list-group-item">
+              <i class="bi bi-tags-fill text-primary me-2"></i>
+              <strong>Category:</strong>
+              <span class="fw-bold">{{ service.category.name }}</span>
+              {% if service.ac_type %} <span class="badge bg-info ms-2">{{ service.ac_type }}</span>{% endif %}
+              {% if service.purifier_type %} <span class="badge bg-info ms-2">{{ service.purifier_type }}</span>{% endif %}
+              {% if service.device_type %} <span class="badge bg-info ms-2">{{ service.device_type }}</span>{% endif %}
+            </li>
+            <li class="list-group-item">
+              <i class="bi bi-cpu-fill text-primary me-2"></i>
+              <strong>Brand:</strong> {{ service.product_brand }}
+            </li>
+            <li class="list-group-item">
+              <i class="bi bi-clock-fill text-primary me-2"></i>
+              <strong>AMC Duration:</strong> {{ service.amc_years }} Year(s)
+            </li>
+            <li class="list-group-item">
+              <i class="bi bi-currency-rupee text-primary me-2"></i>
+              <strong>Price:</strong>
+              <span class="fw-bold text-success fs-5">₹{{ service.price }}</span>
+            </li>
             <li class="list-group-item">
               <strong>Status:</strong>
-              <span class="badge {% if service.status == 'Completed' %}bg-success{% else %}bg-warning text-dark{% endif %}">{{ service.status }}</span>
+              <span class="badge {% if service.status == 'Completed' %}bg-success badge-animated{% else %}bg-warning text-dark{% endif %} px-3 py-2 fs-6">
+                {{ service.status }}
+              </span>
             </li>
-
             {% if service.start_date %}
-            <li class="list-group-item"><strong>Start Date:</strong> {{ service.start_date|date:"d M Y" }}</li>
+              <li class="list-group-item">
+                <strong>Start Date:</strong> {{ service.start_date|date:"d M Y" }}
+              </li>
             {% endif %}
             {% if service.end_date %}
-            <li class="list-group-item"><strong>End Date:</strong> {{ service.end_date|date:"d M Y" }}</li>
+              <li class="list-group-item">
+                <strong>End Date:</strong> {{ service.end_date|date:"d M Y" }}
+              </li>
             {% endif %}
-
-            <li class="list-group-item"><strong>Created At:</strong> {{ service.created_at|date:"F d, Y" }}</li>
+            <li class="list-group-item">
+              <strong>Created At:</strong> {{ service.created_at|date:"F d, Y" }}
+            </li>
           </ul>
 
           <hr class="my-4">
 
           {% if service.bill_url %}
           <div class="d-flex flex-wrap gap-3">
-            <a href="{{ service.bill_url.url }}" target="_blank" class="btn btn-danger flex-grow-1">
+            <a href="{{ service.bill_url.url }}" target="_blank" class="btn btn-danger btn-custom flex-grow-1">
               <i class="bi bi-file-earmark-pdf-fill me-1"></i> View PDF
             </a>
-            <a href="{{ service.bill_url.url }}" download class="btn btn-warning flex-grow-1">
+            <a href="{{ service.bill_url.url }}" download class="btn btn-warning btn-custom flex-grow-1">
               <i class="bi bi-download me-1"></i> Download PDF
             </a>
           </div>
           {% else %}
             <p class="text-muted mt-2">No bill generated yet.</p>
           {% endif %}
-
         </div>
       </div>
     </div>
 
     <!-- Right: Contact & Actions -->
     <div class="col-lg-4">
-      <div class="card shadow-lg border-0 mb-3">
-        <div class="card-body text-center">
-          <h5 class="fw-bold text-muted mb-3">Contact Office Worker</h5>
-          <p class="fs-5 text-primary">{{ service.customer.created_by.name }}</p>
+      <div class="card contact-card mb-3 text-center">
+        <div class="card-body">
+          <h5 class="mb-3"><i class="bi bi-person-lines-fill me-2"></i>Contact Office Worker</h5>
+          <p class="fs-5">{{ service.customer.created_by.name }}</p>
         </div>
       </div>
 
       {% if user.is_authenticated and user.role in "admin, office_worker" and service.status != "Completed" %}
-      <div class="card shadow-lg border-0 text-center mb-3">
+      <div class="card glass-card border-0 text-center mb-3">
         <div class="card-body">
-          <a href="{% url 'update_status' service.uuid %}" class="btn btn-outline-warning w-100">
+          <a href="{% url 'update_status' service.uuid %}" class="btn btn-outline-warning btn-custom w-100">
             <i class="bi bi-pencil-square me-1"></i> Generate / Update Bill
           </a>
         </div>
       </div>
       {% endif %}
 
-      <div class="card shadow-lg border-0 text-center mb-2">
+      <div class="card glass-card border-0 text-center mb-2">
         <div class="card-body">
-          <a href="{% url 'dashboard' %}" class="btn btn-outline-primary w-100">
+          <a href="{% url 'dashboard' %}" class="btn btn-outline-primary btn-custom w-100">
             <i class="bi bi-arrow-left-circle me-1"></i> Back to Dashboard
           </a>
         </div>

@@ -1,11 +1,79 @@
 {% extends "base.html" %}
 {% block content %}
-<div class="container mt-5">
-  <h2 class="mb-4">Update Service Status</h2>
-  <form method="POST" enctype="multipart/form-data">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit" class="btn btn-warning">Update Status</button>
-  </form>
+
+<style>
+  body {
+    background: linear-gradient(135deg, #f8fafc 0%, #e0e7ff 100%);
+  }
+  .glass-card {
+    background: rgba(255,255,255,0.92);
+    backdrop-filter: blur(8px);
+    border-radius: 2rem;
+    box-shadow: 0 4px 32px rgba(99,102,241,0.10);
+    transition: box-shadow 0.2s, transform 0.2s;
+    margin-top: 3rem;
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .section-title {
+    font-size: 1.6rem;
+    font-weight: 800;
+    color: #6366f1;
+    letter-spacing: 1px;
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+    margin-bottom: 1.5em;
+    margin-top: 1.2em;
+    justify-content: center;
+  }
+  .form-label, .glass-card label {
+    font-weight: 600;
+    color: #6366f1;
+    margin-bottom: 0.3em;
+  }
+  .form-control, .form-select, textarea {
+    border-radius: 1.2rem !important;
+    border: 1.5px solid #e0e7ff;
+    box-shadow: 0 2px 8px rgba(99,102,241,0.04);
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  .form-control:focus, .form-select:focus, textarea:focus {
+    border-color: #6366f1;
+    box-shadow: 0 0 0 0.2rem rgba(99,102,241,0.10);
+  }
+  .btn-warning {
+    font-size: 1.1rem;
+    font-weight: 700;
+    border-radius: 2rem;
+    box-shadow: 0 2px 8px rgba(99,102,241,0.10);
+    transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+    padding: 0.7em 2.5em;
+    margin-top: 1.2em;
+  }
+  .btn-warning:hover {
+    background: #6366f1 !important;
+    color: #fff !important;
+    box-shadow: 0 4px 16px rgba(99,102,241,0.18);
+  }
+</style>
+
+<div class="container">
+  <div class="glass-card p-4">
+    <div class="section-title">
+      <i class="bi bi-pencil-square text-warning"></i>
+      Update Service Status
+    </div>
+    <form method="POST" enctype="multipart/form-data">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <div class="text-center">
+        <button type="submit" class="btn btn-warning">
+          <i class="bi bi-arrow-repeat me-2"></i>Update Status
+        </button>
+      </div>
+    </form>
+  </div>
 </div>
 {% endblock %}

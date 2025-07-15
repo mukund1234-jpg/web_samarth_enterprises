@@ -1,14 +1,130 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
+
+<style>
+  body {
+    background: linear-gradient(135deg, #f8fafc 0%, #e0e7ff 100%);
+  }
+  .glass-card {
+    background: rgba(255,255,255,0.92);
+    backdrop-filter: blur(8px);
+    border-radius: 2rem;
+    box-shadow: 0 4px 32px rgba(99,102,241,0.10);
+    transition: box-shadow 0.2s, transform 0.2s;
+  }
+  .glass-card:hover {
+    box-shadow: 0 8px 48px rgba(99,102,241,0.18);
+    transform: translateY(-2px) scale(1.01);
+  }
+  <>
+  .glass-input {
+    background: rgba(255,255,255,0.85);
+    backdrop-filter: blur(6px);
+    border-radius: 1.2rem;
+    box-shadow: 0 2px 8px rgba(99,102,241,0.06);
+    border: 1.5px solid #e0e7ff;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  .glass-input:focus {
+    border-color: #6366f1;
+    box-shadow: 0 0 0 0.2rem rgba(99,102,241,0.10);
+    background: rgba(255,255,255,0.95);
+  }
+  .form-label {
+    color: #6366f1;
+    font-weight: 600;
+  }
+  .helptext {
+    color: #64748b;
+    font-size: 0.95em;
+    margin-bottom: 0.5em;
+  }
+  .card-header {
+    background: linear-gradient(90deg, #6366f1 0%, #60a5fa 100%) !important;
+    color: #fff !important;
+    border-radius: 2rem 2rem 0 0 !important;
+    box-shadow: 0 2px 8px rgba(99,102,241,0.10);
+  }
+  .section-title {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #6366f1;
+    letter-spacing: 1px;
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+    margin-bottom: 1.2em;
+  }
+  .form-label {
+    font-weight: 600;
+    color: #6366f1;
+    margin-bottom: 0.3em;
+  }
+  .form-control, .form-select, textarea {
+    border-radius: 1.2rem !important;
+    border: 1.5px solid #e0e7ff;
+    box-shadow: 0 2px 8px rgba(99,102,241,0.04);
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  .form-control:focus, .form-select:focus, textarea:focus {
+    border-color: #6366f1;
+    box-shadow: 0 0 0 0.2rem rgba(99,102,241,0.10);
+  }
+  .btn-lg {
+    font-size: 1.15rem;
+    font-weight: 700;
+    border-radius: 2rem;
+    box-shadow: 0 2px 8px rgba(99,102,241,0.10);
+    transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+  }
+  .btn-lg:hover {
+    background: #6366f1 !important;
+    color: #fff !important;
+    box-shadow: 0 4px 16px rgba(99,102,241,0.18);
+  }
+  .price-box, .visit-box {
+    background: #f1f5f9;
+    border-radius: 1.2rem;
+    padding: 1em 1.5em;
+    box-shadow: 0 2px 8px rgba(99,102,241,0.06);
+    display: flex;
+    align-items: center;
+    gap: 0.7em;
+  }
+  .price-box h6, .visit-box h6 {
+    margin-bottom: 0;
+    color: #6366f1;
+    font-weight: 700;
+  }
+  .price-box .fs-5 {
+    color: #22c55e;
+    font-weight: 700;
+    font-size: 1.3rem;
+  }
+  .visit-box .badge {
+    font-size: 1.1rem;
+    font-weight: 600;
+    background: linear-gradient(90deg, #6366f1 0%, #60a5fa 100%);
+    color: #fff;
+    border-radius: 1rem;
+    padding: 0.5em 1.2em;
+  }
+  .alert-danger {
+    border-radius: 1.2rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+  }
+</style>
+
 <div class="container py-5">
 
   {% if error %}
     <div class="alert alert-danger text-center">{{ error }}</div>
   {% endif %}
 
-  <div class="card shadow-lg border-0 rounded-4">
-    <div class="card-header bg-primary text-white rounded-top-4">
+  <div class="card glass-card shadow-lg border-0 rounded-4">
+    <div class="card-header text-white rounded-top-4">
       <h4 class="mb-0 text-center">{{ category }} Service Request - <strong>Samarth Enterprises</strong></h4>
     </div>
 
@@ -18,7 +134,7 @@
 
         <!-- Existing Customer -->
         <div class="mb-5">
-          <h5 class="mb-3">👤 Select Existing Customer</h5>
+          <div class="section-title"><span>👤</span> Select Existing Customer</div>
           <div class="form-group">
             {{ select_customer_form.existing_customer.label_tag }}
             {{ select_customer_form.existing_customer }}
@@ -27,7 +143,7 @@
 
         <!-- New Customer -->
         <div id="newCustomerFields" class="mb-5">
-          <h5 class="mb-3">➕ New Customer Details</h5>
+          <div class="section-title"><span>➕</span> New Customer Details</div>
           <div class="row g-4">
             {% for field in customer_form %}
               <div class="col-md-6">
@@ -40,7 +156,7 @@
 
         <!-- Service Details -->
         <div class="mb-5">
-          <h5 class="mb-3">🛠️ Service Details</h5>
+          <div class="section-title"><span>🛠️</span> Service Details</div>
           <div class="row g-4">
             {% for field in service_form %}
               <div class="col-md-6">
@@ -52,14 +168,14 @@
         </div>
 
         <!-- Dynamic Price and Visit Count -->
-        <div class="d-flex justify-content-between align-items-center border-top pt-4 mt-4">
-          <div>
+        <div class="d-flex flex-wrap justify-content-between align-items-center border-top pt-4 mt-4 gap-3">
+          <div class="price-box">
             <h6>💵 Price:</h6>
-            <p class="fs-5 text-success mb-0">₹<span id="price_display">0</span></p>
+            <p class="fs-5 mb-0">₹<span id="price_display">0</span></p>
           </div>
-          <div>
+          <div class="visit-box">
             <h6>🗓️ Visits:</h6>
-            <span id="visit_count_display" class="badge bg-info text-dark fs-6 px-3 py-2">0</span>
+            <span id="visit_count_display" class="badge">{{ 0 }}</span>
           </div>
         </div>
 

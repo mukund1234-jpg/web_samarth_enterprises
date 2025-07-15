@@ -1,0 +1,94 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<style>
+  body {
+    background: linear-gradient(135deg, #f8fafc 0%, #e0e7ff 100%);
+  }
+  .profile-glass-card {
+    background: rgba(255,255,255,0.92);
+    backdrop-filter: blur(8px);
+    border-radius: 1.5rem;
+    box-shadow: 0 4px 32px rgba(99,102,241,0.10);
+    transition: box-shadow 0.2s, transform 0.2s;
+  }
+  .profile-glass-card:hover {
+    box-shadow: 0 8px 48px rgba(99,102,241,0.18);
+    transform: translateY(-2px) scale(1.01);
+  }
+  .profile-avatar {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 50%;
+    background: #e0e7ff;
+    box-shadow: 0 2px 8px rgba(99,102,241,0.10);
+    margin-bottom: 1em;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .profile-title {
+    font-size: 2rem;
+    font-weight: 800;
+    color: #6366f1;
+    letter-spacing: 1px;
+    margin-bottom: 2rem;
+    text-align: center;
+  }
+  .card-header {
+    font-size: 1.15rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    border-radius: 1.5rem 1.5rem 0 0 !important;
+  }
+  .btn-primary {
+    border-radius: 2rem;
+    font-weight: 600;
+    font-size: 1.08rem;
+    box-shadow: 0 2px 8px rgba(99,102,241,0.08);
+    transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+  }
+  .btn-primary:hover {
+    background: #6366f1 !important;
+    color: #fff !important;
+    box-shadow: 0 4px 16px rgba(99,102,241,0.18);
+  }
+</style>
+
+<div class="container mt-5">
+    <div class="profile-title">👤 My Profile</div>
+
+    <div class="profile-glass-card card shadow-sm mb-4 p-4">
+        
+        <h5 class="card-title text-center mb-2">{{ user.name }}</h5>
+        <p class="card-text text-center mb-1"><strong>Email:</strong> {{ user.email }}</p>
+        <p class="card-text text-center"><strong>Role:</strong> {{ user.role|capfirst }}</p>
+    </div>
+
+    {% if user.role == 'customer' %}
+    <div class="profile-glass-card card shadow-sm mb-4">
+        <div class="card-header bg-info text-white">
+            <i class="bi bi-person-badge me-2"></i>Customer Details
+        </div>
+        <div class="card-body">
+            <p><strong>📞 Phone:</strong> {{ user.customer.phone }}</p>
+            <p><strong>🏠 Address:</strong> {{ user.customer.address }}</p>
+        </div>
+    </div>
+    {% elif user.role == 'office_worker' %}
+    <div class="profile-glass-card card shadow-sm mb-4">
+        <div class="card-header bg-success text-white">
+            <i class="bi bi-briefcase me-2"></i>Office Worker Panel
+        </div>
+        <div class="card-body text-center">
+            <p>Welcome, Office Worker!</p>
+            <p>You can manage customers, create AMC requests, and track services.</p>
+            <a href="{% url 'dashboard' %}" class="btn btn-primary mt-2">Go to Dashboard</a>
+        </div>
+    </div>
+    {% endif %}
+
+</div>
+
+{% endblock %}

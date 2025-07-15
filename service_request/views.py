@@ -18,7 +18,8 @@ User = get_user_model()
 
 
 
-
+from django.contrib.auth.decorators import login_required
+@login_required
 def dashboard(request):
     user = request.user
     tab = request.GET.get('tab', 'pending')  # 'pending' or 'complete'
@@ -69,7 +70,7 @@ def dashboard(request):
     })
 
 
-
+@login_required
 def service_details(request, category, uuid):
     if category == 'air-conditioner':
         service = get_object_or_404(ACRequest, uuid=uuid)
@@ -89,7 +90,7 @@ def service_details(request, category, uuid):
         'bill_url': bill_url
     })
 
-
+@login_required
 def service(request):
     service= ProductCategory.objects.all()
     return render(request,'amc/servicePage.html',{'service':service})
@@ -97,7 +98,7 @@ def service(request):
 def aboutus(request):
     return render(request,'amc/aboutusPage.html')
 
-
+@login_required
 def request_form_view(request, category_slug):
     CATEGORY_FORM_MAP = {
         'air-conditioner': acRequestForm,
@@ -205,7 +206,7 @@ def request_form_view(request, category_slug):
             'pricing_rules': json.dumps(pricing_rules),
         })
 
-
+@login_required
 def update_status_view(request, uuid):
     base_service = get_object_or_404(RequestForm, uuid=uuid)
 
@@ -242,3 +243,74 @@ def update_status_view(request, uuid):
         form = StatusUpdateForm(instance=service)
 
     return render(request, 'amc/update_status.html', {'form': form, 'service': service})
+
+from django.db.models import Q
+
+from .models import (
+    ACRequest, WaterPurifierRequest, ChimneyHobRequest, Customer
+)
+
+from django.utils.timezone import localtime, now
+from datetime import timedelta
+
+def service_search_results(request):
+    query = request.GET.get('q', '')
+    services = []
+
+    if query:
+        ac_results = ACRequest.objects.filter(
+            Q(customer__user__name__icontains=query) |
+            Q(customer__user__email__icontains=query) |
+            Q(product_brand__icontains=query) |
+            Q(ac_type__icontains=query) |
+            Q(comprensive__icontains=query) |
+            Q(status__icontains=query)
+        )
+
+        purifier_results = WaterPurifierRequest.objects.filter(
+            Q(customer__user__name__icontains=query) |
+            Q(customer__user__email__icontains=query) |
+            Q(product_brand__icontains=query) |
+            Q(purifier_type__icontains=query) |
+            Q(comprensive__icontains=query) |
+            Q(status__icontains=query)
+        )
+
+        chimney_results = ChimneyHobRequest.objects.filter(
+            Q(customer__user__name__icontains=query) |
+            Q(customer__user__email__icontains=query) |
+            Q(product_brand__icontains=query) |
+            Q(device_type__icontains=query) |
+            Q(comprensive__icontains=query) |
+            Q(status__icontains=query)
+        )
+
+        services = list(ac_results) + list(purifier_results) + list(chimney_results)
+
+        # Add category_slug and display_date to each service
+        for req in services:
+            if isinstance(req, ACRequest):
+                req.category_slug = 'air-conditioner'
+            elif isinstance(req, WaterPurifierRequest):
+                req.category_slug = 'water-filter'
+            elif isinstance(req, ChimneyHobRequest):
+                req.category_slug = 'chimaney-hub'
+
+            today = localtime(now()).date()
+            created_date = localtime(req.created_at).date()
+            if created_date == today:
+                req.display_date = "Today"
+            elif created_date == today - timedelta(days=1):
+                req.display_date = "Yesterday"
+            else:
+                req.display_date = created_date.strftime("%d %b %Y")
+
+    return render(request, 'amc/service_results.html', {'services': services})
+
+
+
+#profile view
+@login_required
+def profile_view(request):
+    user = request.user
+    return render(request, 'amc/profile.html', {'user': user})
