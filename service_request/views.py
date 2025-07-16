@@ -90,7 +90,7 @@ def service_details(request, category, uuid):
         'bill_url': bill_url
     })
 
-@login_required
+
 def service(request):
     service= ProductCategory.objects.all()
     return render(request,'amc/servicePage.html',{'service':service})
@@ -253,7 +253,7 @@ from .models import (
 from django.utils.timezone import localtime, now
 from datetime import timedelta
 
-@login_required
+
 def service_search_results(request):
     query = request.GET.get('q', '')
     services = []
@@ -311,7 +311,7 @@ def service_search_results(request):
 
 
 #profile view
-@login_required
+
 def profile_view(request):
     user = request.user
     return render(request, 'amc/profile.html', {'user': user})
