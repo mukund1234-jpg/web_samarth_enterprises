@@ -1,1 +1,1 @@
-web: gunicorn AMCAPP.wsgi
+﻿web: gunicorn AMCAPP.wsgi
