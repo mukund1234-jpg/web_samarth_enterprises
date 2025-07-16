@@ -1,6 +1,7 @@
 import environ
 import os
 from pathlib import Path
+import dj_database_url
 
 
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -10,24 +11,16 @@ environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 
 
 
-
-
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
-
 SECRET_KEY = 'django-insecure-9cx2v0(w#-!8*)ae^kf-pm+mqe9dpu=lirt**h)j59rc&0w!pn'
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['.up.railway.app', 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['samarth-enterprises.up.railway.app', 'localhost', '127.0.0.1']
 
 
-
-
+CSRF_TRUSTED_ORIGINS =['https://samarth-enterprises.up.railway.app']
 
 # Application definition
 
@@ -85,8 +78,8 @@ if DEBUG == True:
     }
 else:
     DATABASES = {
-    'default':env.db('DATABASE_URL')
-     }
+    'default': dj_database_url.config(default=env('DATABASE_URL'))
+        }
 
 
 # Password validation
