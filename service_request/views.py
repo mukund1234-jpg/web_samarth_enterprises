@@ -19,7 +19,7 @@ User = get_user_model()
 
 
 from django.contrib.auth.decorators import login_required
-
+@login_required
 def dashboard(request):
     user = request.user
     tab = request.GET.get('tab', 'pending')  # 'pending' or 'complete'
@@ -90,10 +90,11 @@ def service_details(request, category, uuid):
         'bill_url': bill_url
     })
 
-
+@login_required
 def service(request):
     service= ProductCategory.objects.all()
     return render(request,'amc/servicePage.html',{'service':service})
+
 
 def aboutus(request):
     return render(request,'amc/aboutusPage.html')
