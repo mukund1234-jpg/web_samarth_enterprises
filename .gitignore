@@ -36,7 +36,6 @@ db.sqlite3-journal
 /media/
 
 # Static files (can regenerate via collectstatic)
-staticfiles/
 static/
 
 # Environment files

@@ -1,0 +1,161 @@
+
+
+
+/* Adjust body padding to prevent content overlap */
+body,* {
+    padding-top: 70px; 
+    margin: 0;
+    padding: 0;/* Adjust based on navbar height *//* base.css */
+    font-family: "Poppins", sans-serif;
+}
+
+
+.navbar {
+    padding: 10px 20px;
+    position: fixed; /* Keeps navbar at the top */
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1050; /* Ensures navbar stays above other content */
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    
+}
+
+  /* Glassmorphism Navbar */
+  .navbar-glass {
+    background: rgba(30, 41, 59, 0.85) !important;
+    backdrop-filter: blur(8px);
+    box-shadow: 0 4px 24px rgba(0,0,0,0.12);
+    border-radius: 0 0 1.5rem 1.5rem;
+  }
+  .logo-img {
+    height: 44px;
+    width: 44px;
+    border-radius: 50%;
+    box-shadow: 0 2px 8px rgba(99,102,241,0.12);
+    transition: transform 0.3s;
+  }
+  .logo-img:hover {
+    transform: scale(1.08) rotate(-6deg);
+  }
+  .logo-text {
+    font-size: 1.5rem;
+    letter-spacing: 1px;
+    color: #fff;
+    font-weight: 700;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.12);
+  }
+  .navbar-nav .nav-link {
+    font-size: 1.1rem;
+    font-weight: 500;
+    margin: 0 0.5rem;
+    border-radius: 1rem;
+    transition: background 0.2s, color 0.2s;
+  }
+  .navbar-nav .nav-link.active, .navbar-nav .nav-link:hover {
+    background: linear-gradient(90deg, #6366f1 0%, #60a5fa 100%);
+    color: #fff !important;
+    box-shadow: 0 2px 8px rgba(99,102,241,0.10);
+  }
+  .search-btn {
+    background: rgba(99,102,241,0.12);
+    border-radius: 50%;
+    transition: background 0.2s, color 0.2s;
+  }
+  .search-btn:hover {
+    background: #6366f1;
+    color: #fff;
+  }
+  .dropdown-toggle {
+    background: linear-gradient(90deg, #6366f1 0%, #60a5fa 100%) !important;
+    color: #fff !important;
+    border-radius: 2rem !important;
+    font-weight: 600;
+    box-shadow: 0 2px 8px rgba(99,102,241,0.10);
+    transition: background 0.2s;
+  }
+  .dropdown-toggle:hover {
+    background: #6366f1 !important;
+    color: #fff !important;
+  }
+  .dropdown-menu {
+    border-radius: 1rem;
+    box-shadow: 0 4px 24px rgba(99,102,241,0.10);
+    min-width: 220px;
+  }
+  .dropdown-item {
+    font-size: 1.05rem;
+    border-radius: 0.5rem;
+    transition: background 0.2s;
+  }
+  .dropdown-item:hover {
+    background: #e0e7ff;
+    color: #6366f1;
+  }
+  .navbar-toggler {
+    border: none;
+    background: transparent;
+  }
+  .navbar-toggler:focus {
+    box-shadow: none;
+  }
+  /* Offcanvas */
+  .offcanvas {
+    background: rgba(30, 41, 59, 0.97) !important;
+    border-radius: 0 1.5rem 1.5rem 0;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.18);
+  }
+  .offcanvas .nav-link {
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+    color: #fff !important;
+    border-radius: 1rem;
+    transition: background 0.2s;
+  }
+  .offcanvas .nav-link:hover {
+    background: #6366f1;
+    color: #fff !important;
+  }
+  /* Search Modal */
+  .modal-content {
+    border-radius: 1.5rem;
+    box-shadow: 0 8px 32px rgba(99,102,241,0.18);
+  }
+  .modal-header {
+    border-radius: 1.5rem 1.5rem 0 0;
+    background: linear-gradient(90deg, #6366f1 0%, #60a5fa 100%);
+  }
+  .modal-title {
+    font-size: 1.4rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+  }
+  .input-group-lg > .form-control {
+    font-size: 1.15rem;
+    border-radius: 2rem !important;
+    box-shadow: 0 2px 8px rgba(99,102,241,0.08);
+  }
+  .input-group-lg > .form-control:focus {
+    border-color: #6366f1;
+    box-shadow: 0 0 0 0.2rem rgba(99,102,241,0.15);
+  }
+
+
+
+
+.search-btn {
+    border: none;
+    color: #555;
+    font-size: 20px;
+    padding: 8px 12px;
+    border-radius: 50%;
+    transition: all 0.3s ease-in-out;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.search-btn:hover {
+    background: #007bff;
+    color: white;
+    transform: scale(1.1);
+}
+
