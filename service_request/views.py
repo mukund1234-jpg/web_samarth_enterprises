@@ -19,7 +19,7 @@ User = get_user_model()
 
 
 from django.contrib.auth.decorators import login_required
-@login_required
+
 def dashboard(request):
     user = request.user
     tab = request.GET.get('tab', 'pending')  # 'pending' or 'complete'
