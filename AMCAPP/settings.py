@@ -9,7 +9,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 env = environ.Env()
 environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 
-
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
 
 SECRET_KEY = 'django-insecure-9cx2v0(w#-!8*)ae^kf-pm+mqe9dpu=lirt**h)j59rc&0w!pn'
 
