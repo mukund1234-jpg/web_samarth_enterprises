@@ -1,17 +1,18 @@
 
 
 
+import environ
 import os
 from pathlib import Path
-import environ
+
+
+BASE_DIR = Path(__file__).resolve().parent.parent
 
 env = environ.Env()
-environ.Env.read_env()
+environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 
 
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
 
 
 # Quick-start development settings - unsuitable for production
@@ -21,10 +22,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = 'django-insecure-9cx2v0(w#-!8*)ae^kf-pm+mqe9dpu=lirt**h)j59rc&0w!pn'
 
+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['*']  # or set to your Railway app domain for security
+
+
 
 
 # Application definition
@@ -74,13 +78,17 @@ WSGI_APPLICATION = 'AMCAPP.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+if DEBUG == True:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
     }
-}
+else:
+    DATABASES = {
+    'default':env.db('DATABASE_URL')
+     }
 
 
 # Password validation
@@ -115,19 +123,11 @@ USE_I18N = True
 USE_TZ = True
 
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/5.2/howto/static-files/
-# Static files (CSS, JavaScript, Images)
-
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 STATIC_URL = '/static/'
-
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static'),  # Point to the static folder in the project root
-]
-
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
 
 # Media files (Uploaded images, videos, etc.)
 MEDIA_URL = '/media/'
@@ -149,6 +149,3 @@ EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
 LOGIN_URL = 'email_login'  # or wherever your login form is
 LOGIN_REDIRECT_URL = 'dashboard'  # Redirect to home after successful login
 LOGOUT_REDIRECT_URL = 'email_login'
-
-import dj_database_url
-DATABASES['default'] = dj_database_url.config(conn_max_age=600, ssl_require=True)
