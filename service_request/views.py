@@ -253,6 +253,7 @@ from .models import (
 from django.utils.timezone import localtime, now
 from datetime import timedelta
 
+@login_required
 def service_search_results(request):
     query = request.GET.get('q', '')
     services = []
