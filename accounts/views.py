@@ -35,7 +35,6 @@ def email_login_view(request):
         form = EmailForm()
     return render(request, 'accounts/login.html', {'form': form})
 
-@login_required
 def otp_verify_view(request):
     email = request.session.get('email')
     if not email:
